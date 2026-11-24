@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONCE Suite para Premiere Pro</title>
+<meta name="description" content="Subtítulos animados, edición multicámara, cortes de silencio y clips para reels dentro de Premiere Pro. Un solo pago, tuyo para siempre.">
+<link rel="icon" href="img/mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+/* Plan: mundo oscuro de la suite (azul marino + azul eléctrico). La audacia está en el "recibo" de suscripciones tachado. */
+:root {
+  --bg: #070B14;
+  --panel: #0E1628;
+  --line: rgba(128, 177, 255, .18);
+  --ink: #E8F0FF;
+  --mut: #8EA3C4;
+  --blue: #2F7CF8;
+  --blue2: #6AA6FF;
+  --red: #FF5A7A;
+  --display: "Montserrat", "Arial Black", system-ui, sans-serif;
+  --body: "Poppins", -apple-system, "Segoe UI", Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: var(--blue2); }
+:focus-visible { outline: 2px solid var(--blue2); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -.02em; }
+h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.08; }
+.eyebrow { font: 700 12px/1 var(--display); letter-spacing: .22em; text-transform: uppercase; color: var(--blue2); }
+.lead { color: var(--mut); font-size: 18px; max-width: 60ch; }
+
+/* navegación */
+nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: rgba(7, 11, 20, .72); border-bottom: 1px solid var(--line); }
+nav .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
+nav .brand { display: flex; align-items: center; gap: 10px; font: 800 18px/1 var(--display); color: #fff; text-decoration: none; }
+nav .brand img { width: 28px; height: 28px; }
+nav .links { margin-left: auto; display: flex; gap: 22px; align-items: center; }
+nav .links a { color: var(--mut); text-decoration: none; font-size: 14px; }
+nav .links a:hover { color: #fff; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; padding: 14px 22px; font: 700 15px/1 var(--body); text-decoration: none; cursor: pointer; color: #fff; background: linear-gradient(90deg, #2F7CF8, #5395FF); box-shadow: 0 10px 30px rgba(47, 124, 248, .35); transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(47, 124, 248, .45); }
+.btn.sm { padding: 10px 16px; font-size: 14px; }
+.btn.ghost { background: transparent; border: 1px solid var(--line); box-shadow: none; }
+@media (max-width: 720px) { nav .links a:not(.btn) { display: none; } }
+
+/* hero */
+.hero { position: relative; padding: 72px 0 40px; background: radial-gradient(70% 60% at 70% 0%, rgba(29, 105, 228, .45), transparent 70%), radial-gradient(50% 40% at 0% 30%, rgba(14, 56, 123, .5), transparent 70%); }
+.hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+.hero h1 { font-size: clamp(38px, 6vw, 72px); font-weight: 900; line-height: .98; }
+.hero h1 .strike { position: relative; color: var(--mut); white-space: nowrap; }
+.hero h1 .strike::after { content: ""; position: absolute; left: -2%; right: -2%; top: 52%; height: .12em; background: var(--red); transform: rotate(-4deg); border-radius: 4px; }
+.hero h1 em { font-style: normal; color: var(--blue2); }
+.hero .lead { margin: 22px 0 28px; }
+.cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.pricechip { display: flex; flex-direction: column; line-height: 1.2; }
+.pricechip b { font: 800 22px/1 var(--display); }
+.pricechip b s { color: var(--mut); font-weight: 600; font-size: 16px; margin-left: 6px; }
+.pricechip span { color: var(--mut); font-size: 13px; }
+.trust { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 26px; color: var(--mut); font-size: 13.5px; }
+.trust span::before { content: "✓"; color: var(--blue2); font-weight: 700; margin-right: 6px; }
+.shots { position: relative; height: 560px; }
+.shot { position: absolute; width: 58%; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 70px rgba(0, 0, 0, .55); background: var(--panel); }
+.shot img { width: 100%; height: auto; }
+.shot.a { left: 0; top: 30px; height: 520px; transform: rotate(-3deg); }
+.shot.b { right: 0; top: 0; height: 520px; transform: rotate(3deg); z-index: 2; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } .shots { height: 440px; max-width: 520px; } .shot.a, .shot.b { height: 400px; } }
+
+/* recibo */
+.receipt-sec { padding: 72px 0; }
+.receipt-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+.receipt { background: #F4F1EA; color: #1b1b1b; border-radius: 6px; padding: 26px 26px 18px; font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; position: relative; transform: rotate(-1.5deg); box-shadow: 0 30px 60px rgba(0, 0, 0, .5); }
+.receipt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; background: linear-gradient(-45deg, transparent 8px, #F4F1EA 0) 0 0 / 16px 12px repeat-x, linear-gradient(45deg, transparent 8px, #F4F1EA 0) 0 0 / 16px 12px repeat-x; }
+.receipt h3 { font: 700 14px/1 ui-monospace, Menlo, monospace; text-align: center; letter-spacing: .2em; margin-bottom: 4px; }
+.receipt .sub { text-align: center; color: #666; font-size: 12px; margin-bottom: 14px; }
+.receipt label { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dashed #c9c3b5; cursor: pointer; }
+.receipt label input { accent-color: #1b1b1b; }
+.receipt label .p { margin-left: auto; font-variant-numeric: tabular-nums; }
+.receipt .yrs { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; font-size: 13px; }
+.receipt .yrs input { flex: 1; accent-color: #1b1b1b; }
+.receipt .tot { display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; padding-top: 10px; border-top: 2px solid #1b1b1b; margin-top: 8px; font-variant-numeric: tabular-nums; }
+.receipt .stamp { position: absolute; right: 18px; bottom: 52px; transform: rotate(-14deg); border: 3px solid var(--red); color: var(--red); font: 900 18px/1 var(--display); padding: 6px 10px; border-radius: 6px; letter-spacing: .06em; opacity: .9; }
+.vs { display: grid; gap: 18px; }
+.vs .big { font: 900 clamp(48px, 7vw, 84px)/1 var(--display); color: #fff; font-variant-numeric: tabular-nums; }
+.vs .big small { font-size: .32em; color: var(--mut); font-weight: 700; margin-left: 6px; }
+.vs .save { color: var(--blue2); font-weight: 600; font-size: 18px; }
+@media (max-width: 900px) { .receipt-grid { grid-template-columns: 1fr; } .receipt { max-width: 440px; } }
+
+/* herramientas */
+.tools { padding: 72px 0; border-top: 1px solid var(--line); }
+.tools header { margin-bottom: 34px; display: grid; gap: 12px; }
+.grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.tool { border: 1px solid var(--line); border-radius: 18px; padding: 22px; background: linear-gradient(160deg, rgba(47, 124, 248, .12), rgba(14, 22, 40, .6)); display: grid; gap: 10px; align-content: start; }
+.tool .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(47, 124, 248, .18); color: var(--blue2); }
+.tool .ic svg { width: 22px; height: 22px; }
+.tool h3 { font-size: 20px; font-weight: 800; }
+.tool p { margin: 0; color: var(--mut); font-size: 14.5px; }
+.tool ul { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; }
+.tool li::before { content: "—"; color: var(--blue2); margin-right: 8px; }
+@media (max-width: 1000px) { .grid4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .grid4 { grid-template-columns: 1fr; } }
+
+/* local */
+.local { padding: 72px 0; }
+.local .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.local .shot2 { border-radius: 22px; overflow: hidden; border: 1px solid var(--line); max-height: 520px; box-shadow: 0 30px 70px rgba(0, 0, 0, .5); }
+.points { display: grid; gap: 18px; margin-top: 24px; }
+.points div { display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+.points b { display: block; color: #fff; }
+.points span { color: var(--mut); font-size: 15px; }
+.points i { width: 34px; height: 34px; border-radius: 10px; background: rgba(47, 124, 248, .18); color: var(--blue2); display: grid; place-items: center; font-style: normal; font-weight: 800; }
+@media (max-width: 900px) { .local .wrap { grid-template-columns: 1fr; } }
+
+/* precio */
+.price { padding: 72px 0; border-top: 1px solid var(--line); background: radial-gradient(60% 60% at 50% 0%, rgba(29, 105, 228, .3), transparent 70%); }
+.card { max-width: 520px; margin: 30px auto 0; border: 1px solid rgba(106, 166, 255, .45); border-radius: 24px; padding: 34px; background: linear-gradient(170deg, #12203D, #0B1222); box-shadow: 0 30px 80px rgba(0, 0, 0, .5); text-align: center; }
+.card .tag { display: inline-block; background: rgba(255, 90, 122, .15); color: #ff9db0; border: 1px solid rgba(255, 90, 122, .4); border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 600; }
+.card .amt { font: 900 72px/1 var(--display); margin: 16px 0 4px; font-variant-numeric: tabular-nums; }
+.card .amt sup { font-size: 28px; vertical-align: 32px; margin-right: 4px; }
+.card .amt small { font-size: 18px; color: var(--mut); font-weight: 700; }
+.card .reg { color: var(--mut); }
+.card ul { text-align: left; list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 10px; }
+.card li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+.card li::before { content: "✓"; color: var(--blue2); font-weight: 800; }
+.card .btn { width: 100%; padding: 17px; font-size: 16px; }
+.card .fine { color: var(--mut); font-size: 13px; margin-top: 12px; }
+
+/* faq */
+.faq { padding: 72px 0; }
+.faq .wrap { max-width: 820px; }
+details { border-bottom: 1px solid var(--line); padding: 18px 0; }
+summary { cursor: pointer; font-weight: 600; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::after { content: "+"; color: var(--blue2); font-weight: 800; }
+details[open] summary::after { content: "–"; }
+details p { color: var(--mut); margin: 10px 0 0; }
+
+footer { border-top: 1px solid var(--line); padding: 40px 0 56px; color: var(--mut); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+footer img { width: 140px; opacity: .9; }
+footer nav, footer .fl { margin-left: auto; display: flex; gap: 18px; flex-wrap: wrap; position: static; background: none; border: 0; backdrop-filter: none; }
+footer a { color: var(--mut); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="img/mark.png" alt=""> ONCE Suite</a>
+    <div class="links">
+      <a href="#herramientas">Herramientas</a>
+      <a href="#precio">Precio</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn sm" href="#precio">Comprar</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Para Premiere Pro y After Effects · Mac y Windows</div>
+      <h1 style="margin-top:16px">Deja de pagar <span class="strike">$29 al mes</span> por cada plugin. <em>Paga una vez.</em></h1>
+      <p class="lead">Subtítulos animados, edición multicámara, cortes de silencio y clips para reels, todo dentro de Premiere Pro. Un solo pago y es tuya para siempre, con actualizaciones incluidas.</p>
+      <div class="cta">
+        <a class="btn" href="https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV">Comprar ONCE Suite</a>
+        <div class="pricechip"><b>$49 USD <s>$79</s></b><span>pago único · precio de lanzamiento</span></div>
+      </div>
+      <div class="trust"><span>Sin mensualidades</span><span>Funciona sin internet</span><span>Garantía de 14 días</span></div>
+    </div>
+    <div class="shots" aria-hidden="true">
+      <div class="shot a"><img src="img/captions.jpg" alt=""></div>
+      <div class="shot b"><img src="img/tools.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<section class="receipt-sec" aria-labelledby="recibo-t">
+  <div class="wrap receipt-grid">
+    <div class="receipt" role="group" aria-label="Calculadora de suscripciones">
+      <h3>TUS SUSCRIPCIONES</h3>
+      <div class="sub">Precios típicos de plugins para Premiere Pro</div>
+      <label><input type="checkbox" data-p="20" checked> Plugin de subtítulos animados <span class="p">$20/mes</span></label>
+      <label><input type="checkbox" data-p="29" checked> Plugin de podcast multicámara <span class="p">$29/mes</span></label>
+      <label><input type="checkbox" data-p="10"> Plugin para quitar silencios <span class="p">$10/mes</span></label>
+      <label><input type="checkbox" data-p="15"> Herramienta de clips para reels <span class="p">$15/mes</span></label>
+      <div class="yrs"><span>Años</span><input type="range" id="years" min="1" max="5" value="2" aria-label="Años de uso"><b id="yrsv">2</b></div>
+      <div class="tot"><span>TOTAL</span><span id="total">$1,176</span></div>
+      <div class="stamp">CANCELADO</div>
+    </div>
+    <div class="vs">
+      <div class="eyebrow" id="recibo-t">Haz la cuenta</div>
+      <h2>Lo que pagarías en suscripciones, contra un solo pago.</h2>
+      <div class="big">$49<small>una vez</small></div>
+      <div class="save" id="saving">Te ahorras $1,127 en 2 años.</div>
+      <p class="lead" style="font-size:16px">Marca las herramientas que usarías y elige los años. ONCE Suite incluye todas, y las actualizaciones no cuestan extra.</p>
+    </div>
+  </div>
+</section>
+
+<section class="tools" id="herramientas">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Cinco herramientas, una sola compra</div>
+      <h2>Todo lo que repites en cada podcast, en automático.</h2>
+    </header>
+    <div class="grid4">
+      <article class="tool">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h13"/></svg></div>
+        <h3>ONCE Captions</h3>
+        <p>Subtítulos palabra por palabra, al estilo de los reels virales. En Premiere y After Effects.</p>
+        <ul><li>Más de 50 estilos, 18 de ellos en la pestaña Motion</li><li>Objetos 3D y flechas animadas automáticos</li><li>Remarques: títulos grandes en los momentos clave</li><li>125 efectos de sonido propios</li></ul>
+      </article>
+      <article class="tool">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/></svg></div>
+        <h3>ONCE MultiCam</h3>
+        <p>Cambia de cámara según quién habla, como si lo editaras a mano.</p>
+        <ul><li>2 a 4 cámaras</li><li>2 a 6 micrófonos</li><li>Planos abiertos automáticos</li></ul>
+      </article>
+      <article class="tool">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.6 7.6L20 18M8.6 16.4L20 6"/></svg></div>
+        <h3>ONCE AutoEdit</h3>
+        <p>Encuentra los silencios y los quita en todas las pistas sin perder la sincronía.</p>
+        <ul><li>Natural, Media o Ajustada</li><li>Vista previa de lo que se va</li><li>Trabaja sobre una copia</li></ul>
+      </article>
+      <article class="tool">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/></svg></div>
+        <h3>ONCE Clips</h3>
+        <p>Lee tu podcast y propone los mejores momentos para reels.</p>
+        <ul><li>Clips de 30 a 90 segundos</li><li>Te dice por qué eligió cada uno</li><li>Secuencia vertical lista</li></ul>
+      </article>
+      <article class="tool">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5M11 8v6M8 11h6"/></svg></div>
+        <h3>ONCE Zoom</h3>
+        <p>Zooms suaves en los momentos clave de lo que dice la persona.</p>
+        <ul><li>Detecta las palabras fuertes</li><li>Rápido, normal o empuje lento</li><li>Keyframes editables</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="local">
+  <div class="wrap">
+    <div class="shot2"><img src="img/autoedit.jpg" alt="ONCE AutoEdit mostrando 86 silencios detectados en un podcast"></div>
+    <div>
+      <div class="eyebrow">Por qué puede ser de por vida</div>
+      <h2 style="margin-top:12px">Todo se procesa en tu computadora.</h2>
+      <p class="lead" style="margin-top:14px">Por eso no hay créditos ni minutos que se acaben, y por eso podemos venderla con un solo pago.</p>
+      <div class="points">
+        <div><i>1</i><p style="margin:0"><b>Tus videos no salen de tu equipo</b><span>Seguro para material de clientes.</span></p></div>
+        <div><i>2</i><p style="margin:0"><b>Sin límites de uso</b><span>Transcribe y edita las horas que quieras.</span></p></div>
+        <div><i>3</i><p style="margin:0"><b>Se actualiza sola</b><span>Las mejoras llegan al panel con un clic.</span></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="price" id="precio">
+  <div class="wrap">
+    <div style="text-align:center;display:grid;gap:12px;justify-items:center">
+      <div class="eyebrow">Precio</div>
+      <h2>Un solo pago. Tuya para siempre.</h2>
+    </div>
+    <div class="card">
+      <span class="tag">Precio de lanzamiento</span>
+      <div class="amt"><sup>$</sup>49<small> USD</small></div>
+      <div class="reg">Precio normal <s>$79 USD</s></div>
+      <ul>
+        <li>ONCE Captions, MultiCam, AutoEdit, Clips y Zoom</li>
+        <li>125 efectos de sonido, 21 objetos 3D y 16 flechas animadas, libres de derechos</li>
+        <li>Actualizaciones incluidas, sin costo extra</li>
+        <li>Úsala en 2 computadoras, Mac o Windows</li>
+        <li>Transcripción local en español e inglés</li>
+        <li>Garantía de reembolso de 14 días</li>
+      </ul>
+      <a class="btn" id="buy" href="https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV">Comprar por $49 USD</a>
+      <div class="fine">Recibes tu clave y el instalador en tu correo al momento.</div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="preguntas">
+  <div class="wrap">
+    <div class="eyebrow">Preguntas frecuentes</div>
+    <h2 style="margin:12px 0 18px">Lo que nos preguntan antes de comprar</h2>
+    <details><summary>¿De verdad es un solo pago?</summary><p>Sí. Pagas una vez y la usas siempre. Las actualizaciones están incluidas y no hay mensualidades.</p></details>
+    <details><summary>¿Qué necesito para usarla?</summary><p>Adobe Premiere Pro 2023 o más nuevo, en Mac o Windows. ONCE Captions también funciona en After Effects. El instalador prepara lo demás: la transcripción y FFmpeg para MultiCam y AutoEdit.</p></details>
+    <details><summary>¿En cuántas computadoras la puedo usar?</summary><p>En 2 al mismo tiempo. Si cambias de equipo, la desactivas en el viejo desde el panel y la activas en el nuevo.</p></details>
+    <details><summary>¿Necesito internet?</summary><p>Solo para activarla y para recibir actualizaciones. La transcripción y los cortes funcionan sin conexión.</p></details>
+    <details><summary>¿En qué idiomas transcribe?</summary><p>Está pensada para español e inglés, y reconoce muchos idiomas más.</p></details>
+    <details><summary>¿Y si no me convence?</summary><p>Tienes 14 días para pedir tu reembolso completo.</p></details>
+  </div>
+</section>
+
+<footer id="soporte">
+  <div class="wrap">
+    <img src="img/logo-h.png" alt="Studio Once">
+    <span>Soporte: Instagram <a href="https://www.instagram.com/studio.once.mx/">@studio.once.mx</a></span>
+    <div class="fl"><a href="#terminos">Términos de uso</a><a href="#privacidad">Aviso de privacidad</a><span>© 2026 Studio Once</span></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var boxes = document.querySelectorAll('.receipt input[type=checkbox]');
+  var yrs = document.getElementById('years');
+  function money(n) { return '$' + n.toLocaleString('en-US'); }
+  function calc() {
+    var m = 0; boxes.forEach(function (b) { if (b.checked) m += +b.dataset.p; });
+    var y = +yrs.value, total = m * 12 * y, save = Math.max(0, total - 49);
+    document.getElementById('yrsv').textContent = y;
+    document.getElementById('total').textContent = money(total);
+    document.getElementById('saving').textContent = save > 0 ? 'Te ahorras ' + money(save) + ' en ' + y + (y === 1 ? ' año.' : ' años.') : 'Marca al menos una herramienta.';
+  }
+  boxes.forEach(function (b) { b.addEventListener('change', calc); });
+  yrs.addEventListener('input', calc);
+  calc();
+  // Enlace de compra: se llena cuando la tienda de Polar esté lista
+  var CHECKOUT = 'https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV';
+  if (CHECKOUT) document.getElementById('buy').href = CHECKOUT;
+})();
+</script>
+</body>
+</html>
