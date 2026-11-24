@@ -145,9 +145,56 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
 footer img { width: 140px; opacity: .9; }
 footer nav, footer .fl { margin-left: auto; display: flex; gap: 18px; flex-wrap: wrap; position: static; background: none; border: 0; backdrop-filter: none; }
 footer a { color: var(--mut); }
+
+/* black friday */
+.bf { background: linear-gradient(90deg, #0b0b0b, #1a0d14 50%, #0b0b0b); border-bottom: 1px solid rgba(255,90,122,.35); color: #fff; font-size: 14px; }
+.bf .wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: center; padding: 10px 0; text-align: center; }
+.bf b { color: #ff9db0; letter-spacing: .08em; }
+.bf code { font: 700 13px/1 ui-monospace, Menlo, monospace; background: rgba(255,255,255,.1); border: 1px dashed rgba(255,255,255,.35); padding: 5px 8px; border-radius: 6px; }
+.bf .cd { font-variant-numeric: tabular-nums; color: var(--mut); }
+.bf a { color: #fff; font-weight: 700; }
+/* pasos */
+.steps { padding: 72px 0; border-top: 1px solid var(--line); }
+.steps header { display: grid; gap: 12px; margin-bottom: 34px; }
+.steps ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: st; }
+.steps li { border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: rgba(14,22,40,.6); counter-increment: st; }
+.steps li::before { content: "0" counter(st); display: block; font: 900 34px/1 var(--display); color: var(--blue2); margin-bottom: 14px; }
+.steps h3 { font-size: 20px; margin-bottom: 8px; }
+.steps p { margin: 0; color: var(--mut); font-size: 15px; }
+@media (max-width: 860px) { .steps ol { grid-template-columns: 1fr; } }
+/* demo */
+.demo { padding: 72px 0; border-top: 1px solid var(--line); }
+.demo .wrap { display: grid; grid-template-columns: .8fr 1.2fr; gap: 48px; align-items: center; }
+.demo video { width: 100%; max-width: 340px; border-radius: 26px; border: 1px solid var(--line); box-shadow: 0 30px 70px rgba(0,0,0,.55); background: #000; justify-self: center; }
+@media (max-width: 860px) { .demo .wrap { grid-template-columns: 1fr; } }
+/* comparación */
+.cmp { padding: 72px 0; border-top: 1px solid var(--line); }
+.cmp .wrap { max-width: 860px; }
+.cmp table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 15.5px; }
+.cmp th, .cmp td { padding: 14px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.cmp thead th { font: 800 14px/1.2 var(--display); color: var(--mut); }
+.cmp thead th.us { color: #fff; }
+.cmp td.us { color: #fff; font-weight: 600; background: rgba(47,124,248,.1); }
+.cmp td.us::before { content: "✓ "; color: var(--blue2); }
+.cmp td.them { color: var(--mut); }
+.cmp .note { color: var(--mut); font-size: 13px; margin-top: 12px; }
+/* bonus */
+.bonus { margin: 6px 0 22px; text-align: left; border: 1px dashed rgba(106,166,255,.5); border-radius: 16px; padding: 16px 18px; background: rgba(47,124,248,.08); }
+.bonus b { font: 800 12px/1 var(--display); letter-spacing: .2em; color: var(--blue2); }
+.bonus ul { margin: 10px 0 0 !important; }
+.card .bfnote { margin-top: 10px; color: #ff9db0; font-size: 14px; }
 </style>
 </head>
 <body>
+
+<div class="bf" id="bf" hidden>
+  <div class="wrap">
+    <span><b>BLACK FRIDAY</b> · 20% extra sobre el precio de lanzamiento: <strong>$39.20 USD</strong></span>
+    <span>Código <code>BLACKFRIDAY</code></span>
+    <span class="cd" id="bfcd"></span>
+    <a href="#precio">Aprovechar →</a>
+  </div>
+</div>
 
 <nav>
   <div class="wrap">
@@ -166,7 +213,7 @@ footer a { color: var(--mut); }
     <div>
       <div class="eyebrow">Para Premiere Pro y After Effects · Mac y Windows</div>
       <h1 style="margin-top:16px">Deja de pagar <span class="strike">$29 al mes</span> por cada plugin. <em>Paga una vez.</em></h1>
-      <p class="lead">Subtítulos animados, edición multicámara, cortes de silencio y clips para reels, todo dentro de Premiere Pro. Un solo pago y es tuya para siempre, con actualizaciones incluidas.</p>
+      <p class="lead">Subtítulos animados, edición multicámara, cortes de silencio, clips para reels y zooms automáticos, dentro de Premiere Pro y After Effects. Un solo pago y es tuya para siempre, con actualizaciones incluidas.</p>
       <div class="cta">
         <a class="btn" href="https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV">Comprar ONCE Suite</a>
         <div class="pricechip"><b>$49 USD <s>$79</s></b><span>pago único · precio de lanzamiento</span></div>
@@ -244,6 +291,33 @@ footer a { color: var(--mut); }
   </div>
 </section>
 
+
+<section class="steps" id="como">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Así de fácil</div>
+      <h2>Subtítulos listos en tres pasos.</h2>
+    </header>
+    <ol>
+      <li><h3>Transcribe</h3><p>Elige la pista de audio y el idioma, o deja que lo detecte. Funciona en 99 idiomas y nada sale de tu computadora.</p></li>
+      <li><h3>Elige un estilo</h3><p>Más de 50 estilos con animación, colores y fuentes. Destaca las palabras clave y mira cómo queda antes de insertarlo.</p></li>
+      <li><h3>Insértalo</h3><p>Los subtítulos llegan a tu timeline ya sincronizados. Ajusta tamaño y posición de todos a la vez, y corrige cualquier palabra.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="demo" id="demo">
+  <div class="wrap">
+    <video src="img/demo.mp4" poster="img/demo.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="Video de ejemplo hecho con ONCE Suite"></video>
+    <div>
+      <div class="eyebrow">Míralo en acción</div>
+      <h2 style="margin-top:12px">Hecho con ONCE Suite, sin animar nada a mano.</h2>
+      <p class="lead" style="margin-top:14px">Subtítulos palabra por palabra, objetos 3D, sonidos y zooms en los momentos clave. Todo salió del panel en un par de clics.</p>
+      <div style="margin-top:24px"><a class="btn" href="#precio">Quiero ONCE Suite</a></div>
+    </div>
+  </div>
+</section>
+
 <section class="local">
   <div class="wrap">
     <div class="shot2"><img src="img/autoedit.jpg" alt="ONCE AutoEdit mostrando 86 silencios detectados en un podcast"></div>
@@ -260,6 +334,26 @@ footer a { color: var(--mut); }
   </div>
 </section>
 
+
+<section class="cmp" id="comparar">
+  <div class="wrap">
+    <div class="eyebrow">Compara</div>
+    <h2 style="margin-top:12px">Más herramientas, más computadoras, menos riesgo.</h2>
+    <table>
+      <thead><tr><th></th><th class="us">ONCE Suite</th><th>Lo común en otros plugins</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Herramientas</th><td class="us">5 en una sola compra</td><td class="them">Una herramienta por compra</td></tr>
+        <tr><th scope="row">Computadoras</th><td class="us">2 por licencia</td><td class="them">1 por licencia</td></tr>
+        <tr><th scope="row">Garantía</th><td class="us">14 días, reembolso completo</td><td class="them">Muchas veces sin reembolso</td></tr>
+        <tr><th scope="row">Pago</th><td class="us">Un solo pago</td><td class="them">Pago por cada plugin o mensualidad</td></tr>
+        <tr><th scope="row">Idiomas</th><td class="us">99, con detección automática</td><td class="them">Varía</td></tr>
+        <tr><th scope="row">Extras</th><td class="us">125 sonidos, 21 objetos 3D, 16 flechas</td><td class="them">Se compran por separado</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Comparación general con lo que suele ofrecerse en el mercado; cada producto es distinto.</p>
+  </div>
+</section>
+
 <section class="price" id="precio">
   <div class="wrap">
     <div style="text-align:center;display:grid;gap:12px;justify-items:center">
@@ -272,13 +366,20 @@ footer a { color: var(--mut); }
       <div class="reg">Precio normal <s>$79 USD</s></div>
       <ul>
         <li>ONCE Captions, MultiCam, AutoEdit, Clips y Zoom</li>
-        <li>125 efectos de sonido, 21 objetos 3D y 16 flechas animadas, libres de derechos</li>
         <li>Actualizaciones incluidas, sin costo extra</li>
         <li>Úsala en 2 computadoras, Mac o Windows</li>
-        <li>Transcripción local en español e inglés</li>
+        <li>Transcripción local en 99 idiomas, con detección automática</li>
         <li>Garantía de reembolso de 14 días</li>
       </ul>
+      <div class="bonus"><b>BONUS INCLUIDOS</b>
+        <ul>
+          <li>125 efectos de sonido propios, libres de derechos</li>
+          <li>21 objetos 3D y 16 flechas animadas</li>
+          <li>18 estilos Motion: neón, cinemático, glitch y más</li>
+        </ul>
+      </div>
       <a class="btn" id="buy" href="https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV">Comprar por $49 USD</a>
+      <div class="bfnote" id="bfnote" hidden>Black Friday: el código <b>BLACKFRIDAY</b> ya va aplicado al dar clic. Pagas $39.20 USD.</div>
       <div class="fine">Recibes tu clave y el instalador en tu correo al momento.</div>
     </div>
   </div>
@@ -292,7 +393,9 @@ footer a { color: var(--mut); }
     <details><summary>¿Qué necesito para usarla?</summary><p>Adobe Premiere Pro 2023 o más nuevo, en Mac o Windows. ONCE Captions también funciona en After Effects. El instalador prepara lo demás: la transcripción y FFmpeg para MultiCam y AutoEdit.</p></details>
     <details><summary>¿En cuántas computadoras la puedo usar?</summary><p>En 2 al mismo tiempo. Si cambias de equipo, la desactivas en el viejo desde el panel y la activas en el nuevo.</p></details>
     <details><summary>¿Necesito internet?</summary><p>Solo para activarla y para recibir actualizaciones. La transcripción y los cortes funcionan sin conexión.</p></details>
-    <details><summary>¿En qué idiomas transcribe?</summary><p>Está pensada para español e inglés, y reconoce muchos idiomas más.</p></details>
+    <details><summary>¿En qué idiomas transcribe?</summary><p>En 99 idiomas, entre ellos español, inglés, portugués, francés e italiano. También puede detectar el idioma solo.</p></details>
+    <details><summary>¿Se sube mi video a algún servidor?</summary><p>No. La transcripción y todo el proceso se hacen en tu computadora. Tus videos y tu audio no salen de tu equipo.</p></details>
+    <details><summary>¿Funciona en DaVinci Resolve o Final Cut?</summary><p>Por ahora no. ONCE Suite funciona en Premiere Pro, y ONCE Captions también en After Effects.</p></details>
     <details><summary>¿Y si no me convence?</summary><p>Tienes 14 días para pedir tu reembolso completo.</p></details>
   </div>
 </section>
@@ -307,6 +410,7 @@ footer a { color: var(--mut); }
 
 <script>
 (function () {
+  var CHECKOUT = 'https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV';
   var boxes = document.querySelectorAll('.receipt input[type=checkbox]');
   var yrs = document.getElementById('years');
   function money(n) { return '$' + n.toLocaleString('en-US'); }
@@ -320,9 +424,24 @@ footer a { color: var(--mut); }
   boxes.forEach(function (b) { b.addEventListener('change', calc); });
   yrs.addEventListener('input', calc);
   calc();
-  // Enlace de compra: se llena cuando la tienda de Polar esté lista
-  var CHECKOUT = 'https://buy.polar.sh/polar_cl_H5oO4AuczILvP2HPE9g8w1Gpc41qvnG2WwY1N2FyvyV';
-  if (CHECKOUT) document.getElementById('buy').href = CHECKOUT;
+
+  // Black Friday: termina el 30 de noviembre de 2026 a las 23:59 (hora de Hermosillo, UTC-7)
+  var BF_END = Date.UTC(2026, 11, 1, 7, 0, 0);
+  function bf() {
+    var left = BF_END - Date.now();
+    var on = left > 0;
+    document.getElementById('bf').hidden = !on;
+    document.getElementById('bfnote').hidden = !on;
+    if (!on) return false;
+    var d = Math.floor(left / 864e5), h = Math.floor(left / 36e5) % 24, m = Math.floor(left / 6e4) % 60, s = Math.floor(left / 1e3) % 60;
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    document.getElementById('bfcd').textContent = 'Termina en ' + (d ? d + 'd ' : '') + two(h) + ':' + two(m) + ':' + two(s);
+    return true;
+  }
+  var BUY = document.querySelectorAll('a[href*="buy.polar.sh"]');
+  function links(on) { BUY.forEach(function (x) { x.href = CHECKOUT + (on ? '?discount_code=BLACKFRIDAY' : ''); }); }
+  links(bf());
+  var t = setInterval(function () { var on = bf(); links(on); if (!on) clearInterval(t); }, 1000);
 })();
 </script>
 </body>
